@@ -723,7 +723,83 @@ async function deleteProduct(id) {
 
 loadProducts();
 
-</script>
+</script> const translations = {
+  uz: {
+    shop: "Mahsulotlar",
+    about: "Biz haqimizda",
+    contact: "Aloqa",
+    admin: "Admin",
+    heroText: "Oddiy. Toza. Ajoyib.",
+    shopNow: "XARID QILISH",
+    latest: "So‘nggi mahsulotlar",
+    aboutTitle: "ExcellentWear haqida",
+    aboutText: "ExcellentWear — toza dizayn, sifat va kundalik uslubga e’tibor qaratadigan zamonaviy kiyim brendi.",
+    contactTitle: "Aloqa"
+  },
+
+  ru: {
+    shop: "Магазин",
+    about: "О нас",
+    contact: "Контакты",
+    admin: "Админ",
+    heroText: "Просто. Чисто. Отлично.",
+    shopNow: "КУПИТЬ",
+    latest: "Последние товары",
+    aboutTitle: "О ExcellentWear",
+    aboutText: "ExcellentWear — современный бренд одежды, ориентированный на чистый дизайн, качество и повседневный стиль.",
+    contactTitle: "Контакты"
+  },
+
+  en: {
+    shop: "Shop",
+    about: "About",
+    contact: "Contact",
+    admin: "Admin",
+    heroText: "Simple. Clean. Excellent.",
+    shopNow: "SHOP NOW",
+    latest: "Latest Products",
+    aboutTitle: "About ExcellentWear",
+    aboutText: "ExcellentWear is a modern clothing brand focused on clean design, quality and everyday style.",
+    contactTitle: "Contact"
+  }
+};
+
+function changeLanguage(language) {
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+    const key = element.getAttribute("data-i18n");
+
+    if (translations[language][key]) {
+      element.innerText = translations[language][key];
+    }
+  });
+
+  document.querySelector(".hero p").innerText =
+    translations[language].heroText;
+
+  document.querySelector(".hero .btn").innerText =
+    translations[language].shopNow;
+
+  document.querySelector("#shop .section-title").innerText =
+    translations[language].latest;
+
+  document.querySelector("#about .section-title").innerText =
+    translations[language].aboutTitle;
+
+  document.querySelector("#about p").innerText =
+    translations[language].aboutText;
+
+  document.querySelector("#contact .section-title").innerText =
+    translations[language].contactTitle;
+
+  localStorage.setItem("language", language);
+}
+
+const savedLanguage =
+  localStorage.getItem("language") || "en";
+
+changeLanguage(savedLanguage);
+
 
 </body>
 </html>
