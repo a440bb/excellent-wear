@@ -1,1 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>ExcellentWear</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    color:#111;
+    background:#fff;
+}
+
+header{
+    height:75px;
+    padding:0 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+    position:sticky;
+    top:0;
+    background:#fff;
+    z-index:10;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+nav a{
+    color:#111;
+    text-decoration:none;
+    margin-left:25px;
+    font-size:14px;
+}
+
+.hero{
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:#f5f5f5;
+    padding:40px 20px;
+}
+
+.hero h1{
+    font-size:65px;
+    letter-spacing:-4px;
+}
+
+.hero p{
+    margin:18px 0 28px;
+    color:#666;
+    font-size:17px;
+}
+
+.btn{
+    display:inline-block;
+    border:none;
+    background:#111;
+    color:white;
+    padding:14px 25px;
+    cursor:pointer;
+    text-decoration:none;
+    border-radius:4px;
+}
+
+section{
+    padding:70px 6%;
+}
+
+h2{
+    font-size:32px;
+    margin-bottom:30px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.product{
+    border:1px solid #eee;
+    background:white;
+}
+
+.product img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    background:#f2f2f2;
+}
+
+.product-info{
+    padding:18px;
+}
+
+.product-name{
+    font-weight:600;
+    font-size:17px;
+}
+
+.price{
+    margin-top:9px;
+    font-weight:bold;
+}
+
+.sizes{
+    margin-top:7px;
+    color:#777;
+    font-size:13px;
+}
+
+.empty{
+    color:#777;
+    padding:30px 0;
+}
+
+footer{
+    padding:40px 6%;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+
+/* ADMIN */
+
+.admin{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:white;
+    z-index:100;
+    overflow:auto;
+    padding:35px 6%;
+}
+
+.admin.active{
+    display:block;
+}
+
+.admin-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.form{
+    max-width:600px;
+    border:1px solid #ddd;
+    padding:25px;
+    margin-bottom:40px;
+}
+
+.form input,
+.form textarea{
+    width:100%;
+    padding:13px;
+    margin:8px 0 15px;
+    border:1px solid #ddd;
+}
+
+.admin-product{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.admin-product img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+}
+
+.admin-product-info{
+    flex:1;
+}
+
+.delete{
+    background:#c62828;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    cursor:pointer;
+}
+
+.close{
+    background:#eee;
+    color:#111;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+EXCELLENTWEAR
+</div>
+
+<nav>
+<a href="#shop">Shop</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<a href="#" onclick="openAdmin()">Admin</a>
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h1>EXCELLENTWEAR</h1>
+
+<p>Simple. Clean. Excellent.</p>
+
+<a href="#shop" class="btn">
+SHOP NOW
+</a>
+
+</section>
+
+
+<section id="shop">
+
+<h2>Latest Products</h2>
+
+<div id="products" class="products"></div>
+
+</section>
+
+
+<section id="about">
+
+<h2>About ExcellentWear</h2>
+
+<p>
+ExcellentWear is a modern clothing brand focused on clean,
+simple and comfortable everyday clothing.
+</p>
+
+</section>
+
+
+<section id="contact">
+
+<h2>Contact</h2>
+
+<p>
+Instagram: @excellentwear
+</p>
+
+</section>
+
+
+<footer>
+
+© 2026 ExcellentWear. All rights reserved.
+
+</footer>
+
+
+<!-- ADMIN PANEL -->
+
+<div id="admin" class="admin">
+
+<div class="admin-top">
+
+<h2>ExcellentWear Admin</h2>
+
+<button class="btn close" onclick="closeAdmin()">
+Close
+</button>
+
+</div>
+
+
+<div id="login">
+
+<div class="form">
+
+<h3>Admin Login</h3>
+
+<input
+id="password"
+type="password"
+placeholder="Password"
+>
+
+<button class="btn" onclick="login()">
+Login
+</button>
+
+</div>
+
+</div>
+
+
+<div id="panel" style="display:none">
+
+<div class="form">
+
+<h3>Add Product</h3>
+
+<input
+id="productName"
+placeholder="Product name"
+>
+
+<input
+id="productPrice"
+type="number"
+placeholder="Price"
+>
+
+<input
+id="productSizes"
+placeholder="Sizes: S, M, L, XL"
+>
+
+<textarea
+id="productDescription"
+placeholder="Product description"
+></textarea>
+
+<input
+id="productImage"
+type="file"
+accept="image/*"
+>
+
+<button class="btn" onclick="addProduct()">
+ADD PRODUCT
+</button>
+
+</div>
+
+
+<h3>Your Products</h3>
+
+<div id="adminProducts"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const STORAGE_KEY = "excellentwear_products";
+
+let products =
+JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+
+function save(){
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(products)
+);
+
+render();
+
+}
+
+
+function render(){
+
+const productsContainer =
+document.getElementById("products");
+
+const adminContainer =
+document.getElementById("adminProducts");
+
+
+if(products.length === 0){
+
+productsContainer.innerHTML =
+'<div class="empty">No products yet.</div>';
+
+adminContainer.innerHTML =
+'<div class="empty">No products yet.</div>';
+
+return;
+
+}
+
+
+productsContainer.innerHTML =
+products.map(product => `
+
+<div class="product">
+
+<img
+src="${product.image}"
+alt="${product.name}"
+>
+
+<div class="product-info">
+
+<div class="product-name">
+${product.name}
+</div>
+
+<div class="price">
+${Number(product.price).toLocaleString()} UZS
+</div>
+
+<div class="sizes">
+Sizes: ${product.sizes}
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+
+adminContainer.innerHTML =
+products.map((product,index) => `
+
+<div class="admin-product">
+
+<img
+src="${product.image}"
+>
+
+<div class="admin-product-info">
+
+<strong>
+${product.name}
+</strong>
+
+<br>
+
+${Number(product.price).toLocaleString()} UZS
+
+<br>
+
+<small>
+${product.sizes}
+</small>
+
+</div>
+
+<button
+class="delete"
+onclick="deleteProduct(${index})"
+>
+DELETE
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function openAdmin(){
+
+document
+.getElementById("admin")
+.classList.add("active");
+
+}
+
+
+function closeAdmin(){
+
+document
+.getElementById("admin")
+.classList.remove("active");
+
+}
+
+
+function login(){
+
+const password =
+document.getElementById("password").value;
+
+if(password === "excellent123"){
+
+document.getElementById("login").style.display =
+"none";
+
+document.getElementById("panel").style.display =
+"block";
+
+}else{
+
+alert("Wrong password");
+
+}
+
+}
+
+
+function addProduct(){
+
+const name =
+document.getElementById("productName").value;
+
+const price =
+document.getElementById("productPrice").value;
+
+const sizes =
+document.getElementById("productSizes").value;
+
+const description =
+document.getElementById("productDescription").value;
+
+const imageInput =
+document.getElementById("productImage");
+
+const file =
+imageInput.files[0];
+
+
+if(!name || !price){
+
+alert("Product name and price are required.");
+
+return;
+
+}
+
+
+if(!file){
+
+alert("Please select a product image.");
+
+return;
+
+}
+
+
+const reader = new FileReader();
+
+
+reader.onload = function(e){
+
+products.push({
+
+name:name,
+
+price:price,
+
+sizes:sizes,
+
+description:description,
+
+image:e.target.result
+
+});
+
+save();
+
+
+document.getElementById("productName").value="";
+document.getElementById("productPrice").value="";
+document.getElementById("productSizes").value="";
+document.getElementById("productDescription").value="";
+document.getElementById("productImage").value="";
+
+alert("Product added!");
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+function deleteProduct(index){
+
+if(confirm("Delete this product?")){
+
+products.splice(index,1);
+
+save();
+
+}
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
